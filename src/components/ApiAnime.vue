@@ -3,21 +3,33 @@ import { ref,computed } from 'vue';
 const url = 'https://animechan.vercel.app/api/available/anime';
 
 const listadoNames = ref([]);
+const vistaActual = ref([])
 var inicio=0;
 var limitacion = 10;
 var dormir = ref(false);
 
 const consultaApi = async(init,limit) => {
     try{
-        fetch(url).then(response => response.json()).then(data => {
-    listadoNames.value = data;
-    listadoNames.value = listadoNames.value.slice(init,limit);
-    }).catch(e => console.log(e));
-    } catch{
-
+        let recepcion = await fetch(url);
+        if(!recepcion.ok){
+            throw new Error('Solicitud rechazada o imposible de completar');
+        }
+        listadoNames.value = await recepcion.json();
+        vistaActual.value = listadoNames.value.slice(inicio,limit);
+        /* .then(response => response.json()).then(data => {
+        listadoNames.value = data;
+        listadoNames.value = listadoNames.value.slice(init,limit);
+        }).catch(e => console.log(e)); */
+    } catch (e){
+        console.log(e);
     }
     
 }
+
+const apiGet = async() => {
+
+}
+
 consultaApi(inicio,limitacion);
 
 
@@ -40,15 +52,17 @@ const anterior = () => {
 
 <template>
 
-    <div>
-        <h1>Consuminedo apis</h1>
+    <div class="container">
+        <h2>Consimiendo api de animes</h2>
+        <span>{{listadoNames.length }}</span>
         <button :disabled="!dormir" @click="anterior">atras</button>
         <button @click="siguiente">siguiente</button>
         <ul>
-            <li v-for="(x,index) in listadoNames" :key="index">
-                {{ index }} - {{ x }}
+            <li v-for="(x,index) in vistaActual" :key="index">
+                {{ x }}
             </li>
         </ul>
+
     </div>
 
 </template>
@@ -57,4 +71,8 @@ const anterior = () => {
 li{
     list-style: none;
 }
+h2{
+    text-align: center;
+}
+
 </style>

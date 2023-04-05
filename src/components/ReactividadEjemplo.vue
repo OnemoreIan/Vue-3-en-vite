@@ -49,68 +49,64 @@ const test = () => {
 
 <template>
 
-<main class="space">
-    <div class="container">
-        <h2>Reactividad</h2>
+<div class="container">
+    <h2>Reactividad</h2>
+</div>
+<div class="container">
+    <p>En Vue puedes pasar funciones o variables como parametros<br>Pero se debe de tener encuenta unos aspectos</p>
+    <p>Para la reactividad se utiliza unas librerias que se deben de importar desde Vue<br>En la parte de Js usas la importacion:  import { ref,computed } from 'vue'</p>
+    <p>Con las importaciones puedes hacer que las variables y funciones sean escuchadas<br>En el caso de las variables *de todo tipo  encierras el valor en ref(aqui va el valor de la variable)</p>
+    <p>En el caso de las funciones deberas de encerrar el contenido en la propiedad computed y siempre debe returnar algo<br>var local = ref(valor) ||||  const miFuncion = computed(() => {aqui va el codigo a ejecutar y un return})</p>
+    <p>No confundir de usar funciones normales y funciones reactivas ya que da error<br>Para que los botones ejecuten funciones son funciones sin el computed</p>        
+    
+</div>
+<div class="container">
+    <h4>Caja reactiva al valor</h4>
+    <div class="colorSpace">
+        <p :class="claseStyle"> clicks => {{ count }}</p>
     </div>
-    <div class="container">
-        <p>En Vue puedes pasar funciones o variables como parametros<br>Pero se debe de tener encuenta unos aspectos</p>
-        <p>Para la reactividad se utiliza unas librerias que se deben de importar desde Vue<br>En la parte de Js usas la importacion:  import { ref,computed } from 'vue'</p>
-        <p>Con las importaciones puedes hacer que las variables y funciones sean escuchadas<br>En el caso de las variables *de todo tipo  encierras el valor en ref(aqui va el valor de la variable)</p>
-        <p>En el caso de las funciones deberas de encerrar el contenido en la propiedad computed y siempre debe returnar algo<br>var local = ref(valor) ||||  const miFuncion = computed(() => {aqui va el codigo a ejecutar y un return})</p>
-        <p>No confundir de usar funciones normales y funciones reactivas ya que da error<br>Para que los botones ejecuten funciones son funciones sin el computed</p>        
+    <div class="controlButton">
+        <button @click="inrementador">sumar </button>
+        <button @click="decrementador">restar</button>
+        <button @click="reiniciar">Resetear</button>
         
+        <button :disabled="busqueda" @click="gusto">Agregar</button>
     </div>
-    <div class="container">
-        <h4>Caja reactiva al valor</h4>
-        <div class="colorSpace">
-            <p :class="claseStyle"> clicks => {{ count }}</p>
-        </div>
-        <div class="controlButton">
-            <button @click="inrementador">sumar </button>
-            <button @click="decrementador">restar</button>
-            <button @click="reiniciar">Resetear</button>
-            
-            <button :disabled="busqueda" @click="gusto">Agregar</button>
-        </div>
-        <p class="advertecia" v-show="busqueda">Para agregar un numero no debe de estar repetido</p>
+    <p class="advertecia" v-show="busqueda">Para agregar un numero no debe de estar repetido</p>
 
-        <div class="listaInvisible" v-show="listaProyecto">
-            <h3>Reactividad de elementos</h3>
-            <p>Lista de numeros favoritos</p>
-            
-            <ul>
-                <li v-for="i in listaProyecto"> {{ i }} </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="container">
-        <h3>Agregar elementos en tiempo real</h3>
-        <div class="formulario">
-            <input type="text"  v-model="dato" minlength="1" placeholder="Ingresa un nombre">
-            <button type="button" @click="add">agregar</button>
-        </div>
-
-        <div class="espacioTabla">
-            <table class="tabla">
-                <thead>
-                    <th>
-                        Nombre
-                    </th>
-                </thead>
-                <tbody>
-                    <tr v-for="item in Megalista">
-                        <td>{{ item }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="listaInvisible" v-show="listaProyecto">
+        <h3>Reactividad de elementos</h3>
+        <p>Lista de numeros favoritos</p>
         
+        <ul>
+            <li v-for="i in listaProyecto"> {{ i }} </li>
+        </ul>
     </div>
-</main>
+</div>
 
+<div class="container">
+    <h3>Agregar elementos en tiempo real</h3>
+    <div class="formulario">
+        <input type="text"  v-model="dato" minlength="1" placeholder="Ingresa un nombre">
+        <button type="button" @click="add">agregar</button>
+    </div>
 
+    <div class="espacioTabla">
+        <table class="tabla">
+            <thead>
+                <th>
+                    Nombre
+                </th>
+            </thead>
+            <tbody>
+                <tr v-for="item in Megalista">
+                    <td>{{ item }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>
 
 </template>
 
@@ -153,14 +149,15 @@ const test = () => {
     justify-content: center;
 }
 .tabla{
-    box-sizing: border-box;
-    border: 1px solid whitesmoke;
+    border-collapse: collapse;
 }
-.tabla thead th{
-    border: 1px solid whitesmoke;
+th{
+    font-size: 1.2rem;
+    text-transform: uppercase;
 }
-.tabla tbody tr{
+th,td {
     border: 1px solid whitesmoke;
+    padding: .3rem 1rem;
 }
 .error{
     color: red;
